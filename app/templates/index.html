@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Créditos Registrados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Créditos Registrados</h1>
+
+    <h2>Registrar nuevo crédito</h2>
+        <form id="formCredito">
+            <input type="text" name="cliente" placeholder="Cliente" required>
+            <input type="number" name="monto" placeholder="Monto" step="0.01" required>
+            <input type="number" name="tasa_interes" placeholder="Tasa de interés (%)" step="0.01" required>
+            <input type="number" name="plazo" placeholder="Plazo (meses)" required>
+            <input type="date" name="fecha_otorgamiento" required>
+            <button type="submit">Registrar</button>
+        </form>
+        <div id="editarContainer" style="display: none;">
+            <h2>Editar crédito</h2>
+            <form id="formEditar">
+                <input type="hidden" name="id">
+                <input type="text" name="cliente" placeholder="Cliente" required>
+                <input type="number" name="monto" placeholder="Monto" step="0.01" required>
+                <input type="number" name="tasa_interes" placeholder="Tasa de interés (%)" step="0.01" required>
+                <input type="number" name="plazo" placeholder="Plazo (meses)" required>
+                <input type="date" name="fecha_otorgamiento" required>
+                <button type="submit">Guardar cambios</button>
+                <button type="button" onclick="cancelarEdicion()">Cancelar</button>
+            </form>
+        </div>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Monto</th>
+                <th>Tasa (%)</th>
+                <th>Plazo</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in creditos %}
+            <tr>
+                <td>{{ c.id }}</td>
+                <td>{{ c.cliente }}</td>
+                <td>{{ c.monto }}</td>
+                <td>{{ c.tasa_interes }}</td>
+                <td>{{ c.plazo }}</td>
+                <td>{{ c.fecha_otorgamiento }}</td>
+                <td>
+                    <button onclick="editarCredito({{ c.id }})">✏️</button>
+                    <button onclick="eliminarCredito({{ c.id }})">🗑️</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

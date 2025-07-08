@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 from .models import Credito
 from . import db
 
@@ -18,7 +18,7 @@ def obtener_creditos():
             'plazo': c.plazo,
             'fecha_otorgamiento': c.fecha_otorgamiento
         })
-	
+
     return jsonify(resultado)
 
 @routes.route('/creditos', methods=['POST'])
@@ -91,3 +91,7 @@ def eliminar_credito(id):
 
     return jsonify({'mensaje': f'Crédito con id {id} eliminado'}), 200
 
+@routes.route('/')
+def inicio():
+    creditos = Credito.query.all()
+    return render_template('index.html', creditos=creditos)
